@@ -27,4 +27,13 @@ export class JobsComponent implements OnInit {
       default: return 'black';
     }
   }
+
+  deleteJob(id: number) {
+    if (confirm('Are you sure you want to delete this job?')) {
+      this.http.delete(`http://localhost:3000/jobs/${id}`).subscribe(() => {
+        this.jobs = this.jobs.filter(job => job.id !== id); // Remove deleted job from UI
+      });
+    }
+  }
+  
 }

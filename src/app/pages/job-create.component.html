@@ -1,0 +1,44 @@
+<h2 style="margin-bottom: 1rem;">Create New Job</h2>
+
+<form (ngSubmit)="submitJob()" #jobForm="ngForm"
+      style="max-width: 500px; padding: 1.5rem; border: 1px solid #ccc; border-radius: 10px; background: #f9f9f9;">
+  
+  <div style="margin-bottom: 1rem;">
+    <label style="display: block; margin-bottom: 0.5rem;">Title:</label>
+    <input type="text" name="title" [(ngModel)]="job.title" required
+           style="width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #ccc;" />
+  </div>
+
+  <div style="margin-bottom: 1rem;">
+    <label style="display: block; margin-bottom: 0.5rem;">Company:</label>
+    <input type="text" name="company" [(ngModel)]="job.company" required
+           style="width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #ccc;" />
+  </div>
+
+  <div style="margin-bottom: 1rem;">
+    <label style="display: block; margin-bottom: 0.5rem;">Date:</label>
+    <input type="date" name="date" [(ngModel)]="job.date" required
+           style="width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #ccc;" />
+  </div>
+
+  <div style="margin-bottom: 1rem;">
+    <label style="display: block; margin-bottom: 0.5rem;">Status:</label>
+    <select name="status" [(ngModel)]="job.status" required
+            style="width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #ccc;">
+      <option value="Pending">Pending</option>
+      <option value="In Progress">In Progress</option>
+      <option value="Completed">Completed</option>
+    </select>
+  </div>
+
+  <div style="margin-bottom: 1rem;">
+    <label style="display: block; margin-bottom: 0.5rem;">Description:</label>
+    <textarea name="description" [(ngModel)]="job.description" rows="4" required
+              style="width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #ccc;"></textarea>
+  </div>
+
+  <button type="submit"
+          style="padding: 0.6rem 1.2rem; background-color: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer;">
+    Submit
+  </button>
+</form>

@@ -1,15 +1,20 @@
-<h2>Jobs List</h2>
-
-<div *ngIf="jobs.length > 0; else noJobs">
-  <div *ngFor="let job of jobs" style="border: 1px solid #ddd; padding: 1rem; margin-bottom: 1rem; border-radius: 8px;">
+<div *ngFor="let job of jobs" style="border: 1px solid #ddd; padding: 1rem; margin-bottom: 1rem; border-radius: 8px;">
     <h3 style="margin: 0 0 0.5rem 0;">
       <a [routerLink]="['/jobs', job.id]" style="text-decoration: none; color: #007bff;">
         {{ job.title }}
       </a>
     </h3>
+  
+    <div style="margin-top: 0.5rem;">
+      <button [routerLink]="['/jobs/edit', job.id]"
+              style="margin-right: 0.5rem; background: orange; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px;">
+        Edit
+      </button>
+  
+      <button (click)="deleteJob(job.id)"
+              style="background: red; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px;">
+        Delete
+      </button>
+    </div>
   </div>
-</div>
-
-<ng-template #noJobs>
-  <p>No jobs available.</p>
-</ng-template>
+  
