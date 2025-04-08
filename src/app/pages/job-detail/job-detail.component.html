@@ -1,2 +1,19 @@
 <h2>Job Details</h2>
-<p>Selected Job ID: {{ jobId }}</p>
+
+<div *ngIf="job; else loading">
+  <div style="border: 1px solid #ccc; padding: 1.5rem; border-radius: 8px;">
+    <h3 style="margin-top: 0;">{{ job.title }}</h3>
+    <p><strong>Company:</strong> {{ job.company }}</p>
+    <p><strong>Status:</strong> 
+      <span [style.color]="getStatusColor(job.status)">
+        {{ job.status }}
+      </span>
+    </p>
+    <p><strong>Date:</strong> {{ job.date | date: 'mediumDate' }}</p>
+    <p><strong>Description:</strong> {{ job.description }}</p>
+  </div>
+</div>
+
+<ng-template #loading>
+  <p>Loading job details...</p>
+</ng-template>

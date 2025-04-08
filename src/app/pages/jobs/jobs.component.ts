@@ -1,34 +1,30 @@
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-jobs',
   standalone: true,
-  imports: [CommonModule, RouterModule], // ✅ Add these
+  imports: [CommonModule, HttpClientModule,RouterModule],
   templateUrl: './jobs.component.html',
-  styleUrls: ['./jobs.component.css']
 })
-export class JobsComponent {
-  jobs = [
-    {
-      id: 1,
-      title: 'Install Network Cables',
-      company: 'TechWave Solutions',
-      date: '2025-04-08',
-    },
-    {
-      id: 2,
-      title: 'Replace Router',
-      company: 'CoreNet Services',
-      date: '2025-04-07',
-    },
-    {
-      id: 3,
-      title: 'Server Room Cleanup',
-      company: 'SecureStack Pvt Ltd',
-      date: '2025-04-06',
+export class JobsComponent implements OnInit {
+  http = inject(HttpClient);
+  jobs: any[] = [];
+
+  ngOnInit() {
+    this.http.get('http://localhost:3000/jobs').subscribe((res: any) => {
+      this.jobs = res;
+    });
+  }
+
+  getStatusColor(status: string): string {
+    switch (status?.toLowerCase()) {
+      case 'completed': return 'green';
+      case 'pending': return 'red';
+      case 'in progress': return 'orange';
+      default: return 'black';
     }
-  ];
-  
+  }
 }
