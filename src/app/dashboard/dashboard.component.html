@@ -1,0 +1,26 @@
+<div style="display: flex; gap: 2rem;">
+    <!-- Job List -->
+    <div style="flex: 1;">
+      <h2>Job List</h2>
+      <div
+        *ngFor="let job of jobs"
+        (click)="selectJob(job)"
+        style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem; cursor: pointer; border-left: 5px solid {{ getStatusColor(job.status) }};"
+      >
+        <h3>{{ job.title }}</h3>
+        <p>Status: <strong style="color: {{ getStatusColor(job.status) }}">{{ job.status }}</strong></p>
+        <p>Date: {{ job.date }}</p>
+      </div>
+    </div>
+  
+    <!-- Job Details -->
+    <div style="flex: 2;" *ngIf="selectedJob">
+      <h2>Job Details</h2>
+      <h3>{{ selectedJob.title }}</h3>
+      <p><strong>Status:</strong> <span style="color: {{ getStatusColor(selectedJob.status) }}">{{ selectedJob.status }}</span></p>
+      <p><strong>Date:</strong> {{ selectedJob.date }}</p>
+      <p><strong>Description:</strong></p>
+      <p>{{ selectedJob.description }}</p>
+    </div>
+  </div>
+  
