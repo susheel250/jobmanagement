@@ -1,22 +1,21 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-job',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [CommonModule, HttpClientModule, RouterModule, FormsModule],
   templateUrl: './edit-job.component.html',
 })
 export class EditJobComponent implements OnInit {
   route = inject(ActivatedRoute);
   http = inject(HttpClient);
-  router = inject(Router);
+  jobId: string | null = null;
 
-  jobId!: number;
-  job: any = {
+  jobData = {
     title: '',
     company: '',
     date: '',
@@ -24,30 +23,43 @@ export class EditJobComponent implements OnInit {
     description: ''
   };
 
+  ngOnInit(): void {
+    this.jobId = this.route.snapshot.paramMap.get('id');
 
+    const token = localStorage.getItem('token');
+    if (!this.jobId || !token) return;
 
-  ngOnInit() {
-    const jobId = this.route.snapshot.paramMap.get('id');
-    this.http.get(`http://localhost:3000/jobs/${jobId}`).subscribe((job: any) => {
-      job.date = formatDateToInput(job.date);  // ✅ Format the date properly
-      this.job = job;
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    this.http.get(`http://localhost:3000/jobs/${this.jobId}`, { headers }).subscribe({
+      next: (data: any) => {
+        data.date = formatDateToInput(data.date);  // ✅ Format the date properly
+
+        this.jobData = data;
+      },
+      error: (err) => {
+        console.error('Failed to load job:', err);
+        alert('Could not load job details.');
+      }
     });
   }
-  
-  
-  
-  
 
   updateJob() {
-  const jobId = this.route.snapshot.paramMap.get('id');
-  this.http.put(`http://localhost:3000/jobs/${jobId}`, this.job)
-    .subscribe(() => {
-      this.router.navigate(['/jobs']);
-      alert('Job updated successfully!');
-      
-    });
-}
+    const token = localStorage.getItem('token');
+    if (!this.jobId || !token) return;
 
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    this.http.put(`http://localhost:3000/jobs/${this.jobId}`, this.jobData, { headers }).subscribe({
+      next: () => {
+        alert('Job updated successfully.');
+      },
+      error: (err) => {
+        console.error('Update failed:', err);
+        alert('Failed to update job.');
+      }
+    });
+  }
 }
 
 function formatDateToInput(dateString: string): string {
@@ -57,4 +69,3 @@ function formatDateToInput(dateString: string): string {
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 }
-

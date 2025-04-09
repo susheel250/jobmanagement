@@ -1,12 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-job-detail',
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule, HttpClientModule, RouterModule],
   templateUrl: './job-detail.component.html',
 })
 export class JobDetailComponent implements OnInit {
@@ -16,12 +16,25 @@ export class JobDetailComponent implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
+    console.log('Route ID:', id);
+  
     if (id) {
-      this.http.get(`http://localhost:3000/jobs/${id}`).subscribe((res: any) => {
-        this.job = res;
+      this.http.get(`http://localhost:3000/jobs/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      }).subscribe({
+        next: (res: any) => {
+          console.log('Job response:', res);
+          this.job = res;
+        },
+        error: (err) => {
+          console.error('Failed to load job:', err);
+        }
       });
     }
   }
+  
 
   getStatusColor(status: string): string {
     switch (status?.toLowerCase()) {
@@ -31,5 +44,4 @@ export class JobDetailComponent implements OnInit {
       default: return 'black';
     }
   }
-  
 }

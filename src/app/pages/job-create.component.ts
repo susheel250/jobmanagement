@@ -10,22 +10,33 @@ import { Router } from '@angular/router';
   imports: [CommonModule, FormsModule, HttpClientModule],
   templateUrl: './job-create.component.html',
 })
-export class JobCreateComponent {
-  http = inject(HttpClient);
-  router = inject(Router);
-
+export class CreateJobComponent {
   job = {
     title: '',
     company: '',
     date: '',
     status: '',
-    description: '',
+    description: ''
   };
 
+  constructor(private http: HttpClient, private router: Router) {}
+
   submitJob() {
-    this.http.post('http://localhost:3000/jobs', this.job).subscribe(() => {
-      alert('Job created successfully!');
-      this.router.navigate(['/jobs']);
+    const jobData = this.job;
+
+    this.http.post('http://localhost:3000/jobs', jobData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).subscribe({
+      next: (res) => {
+        alert('Job created successfully!');
+        this.router.navigate(['/jobs']);
+      },
+      error: (err) => {
+        alert('Failed to create job. Make sure you are logged in.');
+        console.error(err);
+      }
     });
   }
 }

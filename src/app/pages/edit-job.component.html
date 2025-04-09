@@ -3,22 +3,22 @@
 <form (ngSubmit)="updateJob()" #jobForm="ngForm" style="max-width: 500px;">
   <div style="margin-bottom: 1rem;">
     <label>Title:</label><br />
-    <input type="text" name="title" [(ngModel)]="job.title" required style="width: 100%; padding: 8px;" />
+    <input type="text" name="title" [(ngModel)]="jobData.title" required style="width: 100%; padding: 8px;" />
   </div>
 
   <div style="margin-bottom: 1rem;">
     <label>Company:</label><br />
-    <input type="text" name="company" [(ngModel)]="job.company" required style="width: 100%; padding: 8px;" />
+    <input type="text" name="company" [(ngModel)]="jobData.company" required style="width: 100%; padding: 8px;" />
   </div>
 
   <div style="margin-bottom: 1rem;">
     <label>Date:</label><br />
-    <input type="date" name="date" [(ngModel)]="job.date" required style="width: 100%; padding: 8px;" />
+    <input type="date" name="date" [(ngModel)]="jobData.date" required style="width: 100%; padding: 8px;" />
   </div>
 
   <div style="margin-bottom: 1rem;">
     <label>Status:</label><br />
-    <select name="status" [(ngModel)]="job.status" required style="width: 100%; padding: 8px;">
+    <select name="status" [(ngModel)]="jobData.status" required style="width: 100%; padding: 8px;">
       <option value="Pending">Pending</option>
       <option value="In Progress">In Progress</option>
       <option value="Completed">Completed</option>
@@ -27,7 +27,7 @@
 
   <div style="margin-bottom: 1rem;">
     <label>Description:</label><br />
-    <textarea name="description" [(ngModel)]="job.description" rows="4" required style="width: 100%; padding: 8px;"></textarea>
+    <textarea name="description" [(ngModel)]="jobData.description" rows="4" required style="width: 100%; padding: 8px;"></textarea>
   </div>
 
   <button type="submit" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; cursor: pointer;">

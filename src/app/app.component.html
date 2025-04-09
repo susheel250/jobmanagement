@@ -1,19 +1,39 @@
-<div style="display: flex; height: 100vh;">
-  <!-- Sidebar -->
-  <nav style="width: 200px; background-color: #f5f5f5; padding: 1rem;">
-    <h3>Dashboard</h3>
-    <ul style="list-style: none; padding: 0;">
-      <li><a routerLink="/dashboard">Home</a></li>
-      <li><a routerLink="/jobs">Jobs</a></li>
-      <li><a routerLink="/create-job">Create Job</a></li>
-    </ul>
-  </nav>
+<div style="display: flex; height: 100vh; font-family: Arial, sans-serif;">
 
-  <!-- Main content -->
-  <main style="flex: 1; padding: 1rem;">
-    <h1>Welcome to the Dashboard</h1>
+  <!-- Logged-in layout -->
+  <ng-container *ngIf="isLoggedIn(); else loginView">
     
-    <!-- 👇 Move it here -->
-    <router-outlet></router-outlet>
-  </main>
+    <!-- Sidebar -->
+    <nav style="width: 220px; background-color: #2c3e50; color: white; padding: 1rem;">
+      <h2 style="margin-top: 0;">Job Manager</h2>
+      <ul style="list-style: none; padding: 0; margin-top: 2rem;">
+        <li style="margin-bottom: 1rem;">
+          <a routerLink="/dashboard" style="color: white; text-decoration: none;">🏠 Dashboard</a>
+        </li>
+        <li style="margin-bottom: 1rem;">
+          <a routerLink="/jobs" style="color: white; text-decoration: none;">📋 Jobs</a>
+        </li>
+        <li style="margin-bottom: 1rem;">
+          <a routerLink="/create-job" style="color: white; text-decoration: none;">➕ Create Job</a>
+        </li>
+        <li style="margin-top: 2rem;">
+          <a (click)="logout()" style="color: #e74c3c; text-decoration: none; cursor: pointer;">🚪 Logout</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main style="flex: 1; padding: 2rem; background-color: #ecf0f1;">
+      <h1 style="color: #34495e; margin-bottom: 2rem;">Welcome to the Dashboard</h1>
+      <router-outlet></router-outlet>
+    </main>
+  </ng-container>
+
+  <!-- Login-only layout -->
+  <ng-template #loginView>
+    <main style="margin: auto; padding: 2rem; text-align: center;">
+      <router-outlet></router-outlet>
+    </main>
+  </ng-template>
+
 </div>
